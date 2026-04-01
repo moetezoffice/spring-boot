@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<link rel="stylesheet" type="text/css"
+      href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript"
+        src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<head>
+    <meta charset="utf-8">
+    <title>Gestion des Songs</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a class="navbar-brand" href="#">🎵 Gestion Songs</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/ListeSongs}">Accueil</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                Songs
+            </a>
+            <div class="dropdown-menu">
+                <!-- Only ADMIN and AGENT see Ajouter -->
+                <a sec:authorize="hasAnyAuthority('ADMIN','AGENT')"
+                   class="dropdown-item" th:href="@{/showCreate}">Ajouter</a>
+                <a class="dropdown-item" th:href="@{/ListeSongs}">Lister</a>
+            </div>
+        </li>
+        <!-- ADMIN only: REST API link -->
+        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+            <a class="nav-link" th:href="@{/api}">API REST</a>
+        </li>
+    </ul>
+
+    <!-- Right side: username + logout -->
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDrop" data-toggle="dropdown">
+                <span sec:authentication="name"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a sec:authorize="!isAuthenticated()"
+                   class="dropdown-item" th:href="@{/login}">Login</a>
+                <a sec:authorize="isAuthenticated()"
+                   class="dropdown-item" th:href="@{/logout}">Logout</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item text-muted" style="font-size:12px;">
+                    Rôle :
+                    <span sec:authorize="hasAuthority('ADMIN')" class="badge badge-danger">ADMIN</span>
+                    <span sec:authorize="hasAuthority('AGENT')" class="badge badge-warning">AGENT</span>
+                    <span sec:authorize="hasAuthority('USER')" class="badge badge-info">USER</span>
+                </span>
+            </div>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

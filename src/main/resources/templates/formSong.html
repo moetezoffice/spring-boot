@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css"
+      href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+    <meta charset="utf-8">
+    <title>Formulaire Song</title>
+</head>
+<body>
+<div th:replace="template"></div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card">
+                <!-- Dynamic header based on mode -->
+                <div class="card-header" th:if="${mode == 'new'}">
+                    <strong>➕ Ajouter un Song</strong>
+                </div>
+                <div class="card-header" th:if="${mode == 'edit'}">
+                    <strong>✏️ Modifier le Song</strong>
+                </div>
+
+                <div class="card-body">
+                    <form th:action="@{/saveSong}" method="post"
+                          th:object="${song}">
+
+                        <!-- Hidden fields -->
+                        <input type="hidden" th:field="*{idSong}" />
+                        <input type="hidden" name="page" th:value="${page != null ? page : 0}" />
+                        <input type="hidden" name="size" th:value="${size != null ? size : 3}" />
+
+                        <!-- Nom -->
+                        <div class="form-group">
+                            <label>Nom du Song :</label>
+                            <input type="text" th:field="*{nomSong}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('nomSong')} ? 'is-invalid' : ''"
+                                   placeholder="ex: Blinding Lights" />
+                            <div class="invalid-feedback" th:errors="*{nomSong}"></div>
+                        </div>
+
+                        <!-- Prix -->
+                        <div class="form-group">
+                            <label>Prix (DT) :</label>
+                            <input type="number" step="0.01" th:field="*{prixSong}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('prixSong')} ? 'is-invalid' : ''" />
+                            <div class="invalid-feedback" th:errors="*{prixSong}"></div>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label>Date de création :</label>
+                            <input type="date" th:field="*{dateCreation}"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('dateCreation')} ? 'is-invalid' : ''" />
+                            <div class="invalid-feedback" th:errors="*{dateCreation}"></div>
+                        </div>
+
+                        <!-- Category dropdown -->
+                        <div class="form-group">
+                            <label>Catégorie :</label>
+                            <select name="categorie" class="form-control">
+                                <option value="">-- Aucune catégorie --</option>
+                                <option th:each="c : ${categories}"
+                                        th:value="${c.idCat}"
+                                        th:text="${c.nomCat}"
+                                        th:selected="${song.categorie != null and c.idCat == song.categorie.idCat}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">
+                                <span th:if="${mode == 'new'}">Enregistrer</span>
+                                <span th:if="${mode == 'edit'}">Mettre à jour</span>
+                            </button>
+                            <a th:href="@{/ListeSongs}" class="btn btn-secondary">Annuler</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css"
+      href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+    <meta charset="utf-8">
+    <title>Accès refusé</title>
+</head>
+<body>
+<div th:replace="template"></div>
+
+<div class="container mt-5">
+    <div class="alert alert-danger text-center" role="alert">
+        <h4 class="alert-heading">⛔ Accès refusé</h4>
+        <p>Vous n'avez pas les autorisations nécessaires pour accéder à cette page.</p>
+        <hr>
+        <a th:href="@{/ListeSongs}" class="btn btn-outline-danger">
+            Retour à la liste
+        </a>
+    </div>
+</div>
+</body>
+</html>

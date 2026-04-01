@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css"
+      href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<head>
+    <meta charset="utf-8">
+    <title>Connexion</title>
+</head>
+<body class="bg-light">
+<div th:replace="template"></div>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center">
+                    <strong>🔐 Connexion</strong>
+                </div>
+                <div class="card-body">
+                    <!-- Error message -->
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        Nom d'utilisateur ou mot de passe incorrect.
+                    </div>
+                    <!-- Logout message -->
+                    <div th:if="${param.logout}" class="alert alert-success">
+                        Vous avez été déconnecté avec succès.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <label>Utilisateur :</label>
+                            <input type="text" name="username" class="form-control"
+                                   placeholder="admin / agent / user1" autofocus />
+                        </div>
+                        <div class="form-group">
+                            <label>Mot de passe :</label>
+                            <input type="password" name="password" class="form-control"
+                                   placeholder="123" />
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Se connecter
+                        </button>
+                    </form>
+
+                    <hr/>
+                    <small class="text-muted">
+                        Comptes disponibles :<br/>
+                        <strong>admin</strong> / 123 → ADMIN (tout faire)<br/>
+                        <strong>agent</strong> / 123 → AGENT (lire + ajouter)<br/>
+                        <strong>user1</strong> / 123 → USER (lire seulement)
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
